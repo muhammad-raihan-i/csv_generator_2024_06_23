@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>csv generator</title>
+</head>
+<body>
+    <div id="raihan">
+    </div>
+</body>
+</html>
+<script>
+    /*rendering fictional names*/
+    let vowel="a,a,a,a,a,aw,ay,e,e,e,e,e,ey,ew,i,i,i,i,i,iw,o,o,o,o,o,ow,oy,u,u,u,u,u,uy";
+    const arvowel=vowel.split(",");
+    let conso="b,p,p,p,p,p,m,m,f,d,t,t,t,t,t,n,n,s,g,k,k,k,k,k,ng,ng,h,j,ch,ch,ch,ch,ch,ny,ny,sh,r,r,r,r,r";
+    const arconso=conso.split(",");
+    const wordlength=[2,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,4,4,4];
+    function my_random(n){
+        return Math.floor(Math.random()*n);
+    }
+    function my_random_inlist(listname){
+        return listname[my_random(listname.length)];
+    }
+    function write(text){
+        document.getElementById("raihan").innerHTML+=""+text+"";
+    }
+    function bell(position,amount,mu,sigma){
+        return amount/(sigma * Math.sqrt(2*Math.PI)) * Math.exp(-1/2 * ((position - mu)/sigma)**2);
+    }
+    function make_bell(amount,mu,sigma){
+        const freq_of_data=[];
+        for(let i=mu-2*sigma;i<=mu+2*sigma;i++){
+            freq_of_data.push([i,Math.ceil(bell(i,amount,mu,sigma))]);
+        }
+        const possible_data=[];
+        for(let i=0;i<freq_of_data.length;i++){
+            for(let j=0;j<freq_of_data[i][1];j++){
+                possible_data.push(freq_of_data[i][0]);
+            }
+        }
+        return possible_data;
+    }
+    function makename(){
+        let name="";
+        let given_syllcount=my_random_inlist(wordlength);
+        let family_syllcount=my_random_inlist(wordlength);
+        for(let i=0;i<given_syllcount;i++){
+            name+=my_random_inlist(arconso)+my_random_inlist(arvowel);
+        }
+        name+=" ";
+        for(let i=0;i<family_syllcount;i++){
+            name+=my_random_inlist(arconso)+my_random_inlist(arvowel);
+        }
+        return name;
+    }
+    function spawn_row(){
+        let finale="";
+        let height_canbe=make_bell(1000,175,15);
+        let mass_canbe=make_bell(1000,75,5);
+        let gender=["m","f"];
+        finale+="";
+        finale+=makename()+",";
+        finale+=my_random_inlist(height_canbe)/100+",";
+        finale+=my_random_inlist(mass_canbe)+",";
+        finale+=my_random_inlist(gender);
+        finale+="<br>";
+        write(finale);
+    }
+    for(let i=0;i<1001;i++){
+        spawn_row();
+    }
+    
+</script>
